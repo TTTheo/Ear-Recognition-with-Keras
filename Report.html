@@ -13193,7 +13193,8 @@ Fully connected layer will classify output on each node based on weights.</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Reproducing-the-baseline:">Reproducing the baseline:<a class="anchor-link" href="#Reproducing-the-baseline:">&#182;</a></h1><p><strong>We find a existing project of face recognition based on Keras, which is similar to our project in some way. However, there is still a big difference between it and our work. So we use its network frame as a reference and build our own convolutional network with 2 convolutional layers, 2 pooling layers and 1 fully connected layer.</strong></p>
+<h1 id="Reproducing-the-baseline:">Reproducing the baseline:<a class="anchor-link" href="#Reproducing-the-baseline:">&#182;</a></h1><p><strong>We find a existing project of face recognition based on Keras, which is similar to our project in some way. However, there is still a big difference between it and our work. So we use its network frame as a reference and build our own convolutional network with 2 convolutional layers, 2 pooling layers and 1 fully connected layer.</strong> 
+<strong>Also, we changeed the final activation function to softmax because it has better performence in catogorizing.</strong></p>
 
 </div>
 </div>
@@ -13207,7 +13208,7 @@ Fully connected layer will classify output on each node based on weights.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[73]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">skimage.io</span> <span class="k">import</span> <span class="n">imread_collection</span>
@@ -13275,28 +13276,10 @@ Fully connected layer will classify output on each node based on weights.</p>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>Using TensorFlow backend.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[74]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_set</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s1">&#39;original/*.jpg&#39;</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
@@ -13309,7 +13292,7 @@ Fully connected layer will classify output on each node based on weights.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[75]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">set_init</span><span class="p">(</span><span class="n">data_set</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
@@ -13322,7 +13305,7 @@ Fully connected layer will classify output on each node based on weights.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[78]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">keras.models</span> <span class="k">import</span> <span class="n">Sequential</span>
@@ -13349,7 +13332,7 @@ Fully connected layer will classify output on each node based on weights.</p>
     <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">AveragePooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="p">,</span><span class="n">strides</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>  <span class="c1"># pooling layer</span>
     <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Flatten</span><span class="p">())</span>  <span class="c1"># 1 denmension</span>
     <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">nb_classes</span><span class="p">))</span>  <span class="c1"># fully connected layer</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">))</span>  <span class="c1"># </span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;softmax&#39;</span><span class="p">))</span>  <span class="c1"># </span>
 
     <span class="c1"># compile</span>
     <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adadelta&#39;</span><span class="p">,</span><span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
@@ -13378,10 +13361,10 @@ Fully connected layer will classify output on each node based on weights.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[79]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13398,149 +13381,139 @@ Fully connected layer will classify output on each node based on weights.</p>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>样本数据集的维度： (624, 200, 200, 1) (624, 195)
-测试数据集的维度： (78, 200, 200, 1) (78, 195)
+<pre>dimension of train set： (624, 200, 200, 1) (624, 195)
+dimension of test set： (78, 200, 200, 1) (78, 195)
 Train on 624 samples, validate on 78 samples
-Epoch 1/30
-624/624 [==============================] - 1s 1ms/step - loss: 5.4536 - acc: 0.0048 - val_loss: 5.2910 - val_acc: 0.0000e+00
-Epoch 2/30
-624/624 [==============================] - 1s 890us/step - loss: 5.2756 - acc: 0.0176 - val_loss: 5.4804 - val_acc: 0.0000e+00
-Epoch 3/30
-624/624 [==============================] - 1s 921us/step - loss: 5.2198 - acc: 0.0385 - val_loss: 5.4052 - val_acc: 0.0000e+00
-Epoch 4/30
-624/624 [==============================] - 1s 926us/step - loss: 5.1425 - acc: 0.0769 - val_loss: 5.5298 - val_acc: 0.0000e+00
-Epoch 5/30
-624/624 [==============================] - 1s 914us/step - loss: 5.0097 - acc: 0.1218 - val_loss: 5.9510 - val_acc: 0.0000e+00
-Epoch 6/30
-624/624 [==============================] - 1s 882us/step - loss: 4.8715 - acc: 0.1282 - val_loss: 5.8096 - val_acc: 0.0000e+00
-Epoch 7/30
-624/624 [==============================] - 1s 869us/step - loss: 4.6691 - acc: 0.1859 - val_loss: 6.1287 - val_acc: 0.0000e+00
-Epoch 8/30
-624/624 [==============================] - 1s 872us/step - loss: 4.3007 - acc: 0.2340 - val_loss: 7.6088 - val_acc: 0.0000e+00
-Epoch 9/30
-624/624 [==============================] - 1s 952us/step - loss: 4.2188 - acc: 0.2821 - val_loss: 6.2276 - val_acc: 0.0128
-Epoch 10/30
-624/624 [==============================] - 1s 940us/step - loss: 4.0660 - acc: 0.3686 - val_loss: 7.9962 - val_acc: 0.0000e+00
-Epoch 11/30
-624/624 [==============================] - 1s 947us/step - loss: 3.1928 - acc: 0.4776 - val_loss: 5.5994 - val_acc: 0.0128
-Epoch 12/30
-624/624 [==============================] - 1s 921us/step - loss: 3.3628 - acc: 0.4679 - val_loss: 7.7965 - val_acc: 0.0256
-Epoch 13/30
-624/624 [==============================] - 1s 886us/step - loss: 2.4455 - acc: 0.6330 - val_loss: 8.4654 - val_acc: 0.0128
-Epoch 14/30
-624/624 [==============================] - 1s 883us/step - loss: 1.4953 - acc: 0.6891 - val_loss: 6.8011 - val_acc: 0.0256
-Epoch 15/30
-624/624 [==============================] - 1s 864us/step - loss: 1.5865 - acc: 0.7404 - val_loss: 10.0958 - val_acc: 0.0128
-Epoch 16/30
-624/624 [==============================] - 1s 952us/step - loss: 0.8300 - acc: 0.8333 - val_loss: 10.2083 - val_acc: 0.0000e+00
-Epoch 17/30
-624/624 [==============================] - 1s 890us/step - loss: 0.7638 - acc: 0.8814 - val_loss: 10.4910 - val_acc: 0.0000e+00
-Epoch 18/30
-624/624 [==============================] - 1s 874us/step - loss: 0.6151 - acc: 0.8990 - val_loss: 8.8080 - val_acc: 0.1282
-Epoch 19/30
-624/624 [==============================] - 1s 900us/step - loss: 0.0781 - acc: 0.9872 - val_loss: 8.9248 - val_acc: 0.1282
-Epoch 20/30
-624/624 [==============================] - 1s 933us/step - loss: 0.0444 - acc: 0.9920 - val_loss: 8.6891 - val_acc: 0.1410
-Epoch 21/30
-624/624 [==============================] - 1s 920us/step - loss: 0.0335 - acc: 0.9952 - val_loss: 8.6782 - val_acc: 0.1410
-Epoch 22/30
-624/624 [==============================] - 1s 915us/step - loss: 0.0235 - acc: 0.9984 - val_loss: 8.7004 - val_acc: 0.1410
-Epoch 23/30
-624/624 [==============================] - 1s 884us/step - loss: 0.0068 - acc: 1.0000 - val_loss: 8.7436 - val_acc: 0.1410
-Epoch 24/30
-624/624 [==============================] - 1s 874us/step - loss: 0.0043 - acc: 1.0000 - val_loss: 8.7507 - val_acc: 0.1410
-Epoch 25/30
-624/624 [==============================] - 1s 947us/step - loss: 0.0032 - acc: 1.0000 - val_loss: 8.7723 - val_acc: 0.1410
-Epoch 26/30
-624/624 [==============================] - 1s 946us/step - loss: 0.0027 - acc: 1.0000 - val_loss: 8.8143 - val_acc: 0.1410
-Epoch 27/30
-624/624 [==============================] - 1s 949us/step - loss: 0.0023 - acc: 1.0000 - val_loss: 8.8238 - val_acc: 0.1410
-Epoch 28/30
-624/624 [==============================] - 1s 969us/step - loss: 0.0021 - acc: 1.0000 - val_loss: 8.8462 - val_acc: 0.1410
-Epoch 29/30
-624/624 [==============================] - 1s 999us/step - loss: 0.0019 - acc: 1.0000 - val_loss: 8.8682 - val_acc: 0.1410
-Epoch 30/30
-624/624 [==============================] - 1s 963us/step - loss: 0.0017 - acc: 1.0000 - val_loss: 8.8905 - val_acc: 0.1410
-Test score: 8.397333414126665
-Test accuracy: 0.16666666781290984
-第36个人识别为第67个人
-第2个人识别为第158个人
-第104个人识别为第63个人
-第105个人识别为第38个人
-第137个人识别为第146个人
-第124个人识别为第152个人
-第20个人识别为第178个人
-第180个人识别为第180个人
-第172个人识别为第47个人
-第184个人识别为第184个人
-第27个人识别为第27个人
-第35个人识别为第159个人
-第189个人识别为第50个人
-第82个人识别为第82个人
-第48个人识别为第39个人
-第24个人识别为第174个人
-第143个人识别为第27个人
-第14个人识别为第173个人
-第64个人识别为第64个人
-第19个人识别为第18个人
-第151个人识别为第179个人
-第131个人识别为第92个人
-第33个人识别为第114个人
-第50个人识别为第190个人
-第39个人识别为第186个人
-第0个人识别为第54个人
-第187个人识别为第76个人
-第35个人识别为第77个人
-第45个人识别为第99个人
-第35个人识别为第28个人
-第3个人识别为第145个人
-第55个人识别为第147个人
-第69个人识别为第182个人
-第8个人识别为第100个人
-第179个人识别为第71个人
-第4个人识别为第82个人
-第49个人识别为第153个人
-第21个人识别为第21个人
-第96个人识别为第168个人
-第89个人识别为第92个人
-第46个人识别为第11个人
-第80个人识别为第69个人
-第13个人识别为第108个人
-第169个人识别为第71个人
-第60个人识别为第178个人
-第15个人识别为第87个人
-第104个人识别为第33个人
-第86个人识别为第169个人
-第151个人识别为第179个人
-第139个人识别为第39个人
-第96个人识别为第158个人
-第113个人识别为第174个人
-第43个人识别为第51个人
-第60个人识别为第63个人
-第31个人识别为第5个人
-第143个人识别为第79个人
-第138个人识别为第138个人
-第106个人识别为第106个人
-第57个人识别为第57个人
-第110个人识别为第110个人
-第111个人识别为第37个人
-第146个人识别为第146个人
-第104个人识别为第17个人
-第75个人识别为第66个人
-第97个人识别为第97个人
-第107个人识别为第153个人
-第138个人识别为第72个人
-第59个人识别为第3个人
-第61个人识别为第153个人
-第30个人识别为第108个人
-第98个人识别为第98个人
-第81个人识别为第168个人
-第175个人识别为第179个人
-第84个人识别为第45个人
-第185个人识别为第142个人
-第46个人识别为第17个人
-第109个人识别为第77个人
-第90个人识别为第68个人
+Epoch 1/25
+624/624 [==============================] - 20s 31ms/step - loss: 6.7865 - acc: 0.0064 - val_loss: 5.3964 - val_acc: 0.0000e+00
+Epoch 2/25
+624/624 [==============================] - 19s 30ms/step - loss: 5.2883 - acc: 0.0160 - val_loss: 5.5065 - val_acc: 0.0128
+Epoch 3/25
+624/624 [==============================] - 19s 31ms/step - loss: 5.1235 - acc: 0.0545 - val_loss: 5.4085 - val_acc: 0.0000e+00
+Epoch 4/25
+624/624 [==============================] - 19s 31ms/step - loss: 4.9704 - acc: 0.1058 - val_loss: 5.4183 - val_acc: 0.0000e+00
+Epoch 5/25
+624/624 [==============================] - 20s 32ms/step - loss: 4.6617 - acc: 0.2500 - val_loss: 5.4335 - val_acc: 0.0000e+00
+Epoch 6/25
+624/624 [==============================] - 21s 33ms/step - loss: 4.2796 - acc: 0.2484 - val_loss: 5.6300 - val_acc: 0.0128
+Epoch 7/25
+624/624 [==============================] - 21s 33ms/step - loss: 3.4425 - acc: 0.4135 - val_loss: 5.9763 - val_acc: 0.0256
+Epoch 8/25
+624/624 [==============================] - 20s 32ms/step - loss: 2.6079 - acc: 0.5016 - val_loss: 6.6177 - val_acc: 0.0128
+Epoch 9/25
+624/624 [==============================] - 19s 31ms/step - loss: 2.2913 - acc: 0.5112 - val_loss: 6.4196 - val_acc: 0.0256
+Epoch 10/25
+624/624 [==============================] - 20s 32ms/step - loss: 1.1300 - acc: 0.7420 - val_loss: 6.9644 - val_acc: 0.0128
+Epoch 11/25
+624/624 [==============================] - 21s 33ms/step - loss: 0.7583 - acc: 0.8365 - val_loss: 7.2455 - val_acc: 0.0513
+Epoch 12/25
+624/624 [==============================] - 22s 35ms/step - loss: 0.4012 - acc: 0.9054 - val_loss: 7.3642 - val_acc: 0.0641
+Epoch 13/25
+624/624 [==============================] - 21s 34ms/step - loss: 0.2135 - acc: 0.9567 - val_loss: 6.9468 - val_acc: 0.0897
+Epoch 14/25
+624/624 [==============================] - 21s 34ms/step - loss: 0.0601 - acc: 0.9984 - val_loss: 7.3603 - val_acc: 0.0769
+Epoch 15/25
+624/624 [==============================] - 21s 33ms/step - loss: 0.0448 - acc: 0.9968 - val_loss: 7.3824 - val_acc: 0.0897
+Epoch 16/25
+624/624 [==============================] - 20s 32ms/step - loss: 0.0236 - acc: 1.0000 - val_loss: 7.4766 - val_acc: 0.0769
+Epoch 17/25
+624/624 [==============================] - 20s 32ms/step - loss: 0.0185 - acc: 1.0000 - val_loss: 7.5272 - val_acc: 0.0769
+Epoch 18/25
+624/624 [==============================] - 20s 32ms/step - loss: 0.0140 - acc: 1.0000 - val_loss: 7.6220 - val_acc: 0.0769
+Epoch 19/25
+624/624 [==============================] - 20s 32ms/step - loss: 0.0122 - acc: 1.0000 - val_loss: 7.7790 - val_acc: 0.0769
+Epoch 20/25
+624/624 [==============================] - 22s 36ms/step - loss: 0.0102 - acc: 1.0000 - val_loss: 7.8671 - val_acc: 0.0769
+Epoch 21/25
+624/624 [==============================] - 22s 35ms/step - loss: 0.0085 - acc: 1.0000 - val_loss: 7.9432 - val_acc: 0.0769
+Epoch 22/25
+624/624 [==============================] - 20s 32ms/step - loss: 0.0070 - acc: 1.0000 - val_loss: 8.0286 - val_acc: 0.0769
+Epoch 23/25
+624/624 [==============================] - 20s 32ms/step - loss: 0.0060 - acc: 1.0000 - val_loss: 8.1131 - val_acc: 0.0769
+Epoch 24/25
+624/624 [==============================] - 20s 32ms/step - loss: 0.0052 - acc: 1.0000 - val_loss: 8.2914 - val_acc: 0.0769
+Epoch 25/25
+624/624 [==============================] - 21s 33ms/step - loss: 0.0046 - acc: 1.0000 - val_loss: 8.3569 - val_acc: 0.0641
+Test score: 8.711939860612919
+Test accuracy: 0.11538461595773697
+37 person is predicted as 157person
+44 person is predicted as 59person
+174 person is predicted as 36person
+114 person is predicted as 189person
+182 person is predicted as 83person
+100 person is predicted as 79person
+133 person is predicted as 133person
+84 person is predicted as 82person
+138 person is predicted as 138person
+87 person is predicted as 88person
+12 person is predicted as 12person
+89 person is predicted as 70person
+39 person is predicted as 16person
+67 person is predicted as 67person
+80 person is predicted as 158person
+112 person is predicted as 112person
+8 person is predicted as 179person
+27 person is predicted as 93person
+41 person is predicted as 5person
+159 person is predicted as 109person
+173 person is predicted as 59person
+1 person is predicted as 158person
+65 person is predicted as 69person
+165 person is predicted as 190person
+91 person is predicted as 59person
+69 person is predicted as 70person
+34 person is predicted as 156person
+104 person is predicted as 171person
+103 person is predicted as 6person
+27 person is predicted as 84person
+25 person is predicted as 85person
+137 person is predicted as 10person
+118 person is predicted as 151person
+185 person is predicted as 128person
+103 person is predicted as 151person
+108 person is predicted as 129person
+167 person is predicted as 162person
+103 person is predicted as 173person
+91 person is predicted as 73person
+119 person is predicted as 124person
+172 person is predicted as 142person
+175 person is predicted as 160person
+8 person is predicted as 26person
+131 person is predicted as 141person
+56 person is predicted as 63person
+14 person is predicted as 152person
+184 person is predicted as 113person
+100 person is predicted as 119person
+16 person is predicted as 63person
+106 person is predicted as 5person
+47 person is predicted as 47person
+89 person is predicted as 65person
+30 person is predicted as 70person
+58 person is predicted as 32person
+46 person is predicted as 74person
+27 person is predicted as 66person
+82 person is predicted as 50person
+148 person is predicted as 148person
+54 person is predicted as 20person
+185 person is predicted as 142person
+116 person is predicted as 80person
+100 person is predicted as 123person
+102 person is predicted as 102person
+100 person is predicted as 98person
+81 person is predicted as 168person
+11 person is predicted as 116person
+21 person is predicted as 177person
+165 person is predicted as 75person
+189 person is predicted as 48person
+68 person is predicted as 70person
+145 person is predicted as 177person
+50 person is predicted as 189person
+14 person is predicted as 86person
+108 person is predicted as 123person
+122 person is predicted as 47person
+143 person is predicted as 79person
+68 person is predicted as 55person
+172 person is predicted as 172person
 </pre>
 </div>
 </div>
@@ -13737,7 +13710,7 @@ Test accuracy: 0.16666666781290984
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Comment">Comment<a class="anchor-link" href="#Comment">&#182;</a></h2><h2 id="Limitted-by-the-time-given-and-our-knowledge-and-experience-in-machine-learning,-although-some-improvements-above-can-increase-the-training-dataset,-there-is-another-problem-we-can-never-fix:-the-validation-accuracy-is-decreasing-when-training-accuracy-is-increasing.">Limitted by the time given and our knowledge and experience in machine learning, although some improvements above can increase the training dataset, there is another problem we can never fix: the validation accuracy is decreasing when training accuracy is increasing.<a class="anchor-link" href="#Limitted-by-the-time-given-and-our-knowledge-and-experience-in-machine-learning,-although-some-improvements-above-can-increase-the-training-dataset,-there-is-another-problem-we-can-never-fix:-the-validation-accuracy-is-decreasing-when-training-accuracy-is-increasing.">&#182;</a></h2><h2 id="This-is-mainly-because-the-dataset-is-too-small-that-each-class-only-has-4-pictures.-And-in-the-4-pictures,-we-have-to-divide-into-training,-validation-and-test-set.-Besides,-though-we-have-to-admit-that-keras-is-a-user-friendly-and-straightforward-framework,-it-has-some-drawbacks-that-all-layer-is-encapsulated--well.-The-verbose-mode-is-not-enough-for-providing-details-that-we-can-know-what-features-that-the-cnn-generated.">This is mainly because the dataset is too small that each class only has 4 pictures. And in the 4 pictures, we have to divide into training, validation and test set. Besides, though we have to admit that keras is a user-friendly and straightforward framework, it has some drawbacks that all layer is encapsulated  well. The verbose mode is not enough for providing details that we can know what features that the cnn generated.<a class="anchor-link" href="#This-is-mainly-because-the-dataset-is-too-small-that-each-class-only-has-4-pictures.-And-in-the-4-pictures,-we-have-to-divide-into-training,-validation-and-test-set.-Besides,-though-we-have-to-admit-that-keras-is-a-user-friendly-and-straightforward-framework,-it-has-some-drawbacks-that-all-layer-is-encapsulated--well.-The-verbose-mode-is-not-enough-for-providing-details-that-we-can-know-what-features-that-the-cnn-generated.">&#182;</a></h2><h2 id="If-more-time-is-allowed,-we-might-have-more-options-to-ameliorate-our-implementation.">If more time is allowed, we might have more options to ameliorate our implementation.<a class="anchor-link" href="#If-more-time-is-allowed,-we-might-have-more-options-to-ameliorate-our-implementation.">&#182;</a></h2><h2 id="Here-are-several-possible-options-we-considered:">Here are several possible options we considered:<a class="anchor-link" href="#Here-are-several-possible-options-we-considered:">&#182;</a></h2><h3 id="1.-CNN-HMM-Hybrid-model">1. CNN-HMM Hybrid model<a class="anchor-link" href="#1.-CNN-HMM-Hybrid-model">&#182;</a></h3><h3 id="2.-Using-edge-detection-to-extract-ear-image-from-the-original-image-to-reduce-noice">2. Using edge detection to extract ear image from the original image to reduce noice<a class="anchor-link" href="#2.-Using-edge-detection-to-extract-ear-image-from-the-original-image-to-reduce-noice">&#182;</a></h3>
+<h2 id="Comment">Comment<a class="anchor-link" href="#Comment">&#182;</a></h2><h2 id="Limitted-by-the-time-given-and-our-knowledge-and-experience-in-machine-learning,-although-some-improvements-above-can-increase-the-training-dataset,-there-is-another-problem-we-can-never-fix:-the-validation-accuracy-is-decreasing-when-training-accuracy-is-increasing.">Limitted by the time given and our knowledge and experience in machine learning, although some improvements above can increase the training dataset, there is another problem we can never fix: the validation accuracy is decreasing when training accuracy is increasing.<a class="anchor-link" href="#Limitted-by-the-time-given-and-our-knowledge-and-experience-in-machine-learning,-although-some-improvements-above-can-increase-the-training-dataset,-there-is-another-problem-we-can-never-fix:-the-validation-accuracy-is-decreasing-when-training-accuracy-is-increasing.">&#182;</a></h2><h2 id="This-is-mainly-because-the-dataset-is-too-small-that-each-class-only-has-4-pictures.-And-in-the-4-pictures,-we-have-to-divide-into-training,-validation-and-test-set.-And-this-cause-very-severe-overfitting-in-our-validation-and-test-process.">This is mainly because the dataset is too small that each class only has 4 pictures. And in the 4 pictures, we have to divide into training, validation and test set. And this cause very severe overfitting in our validation and test process.<a class="anchor-link" href="#This-is-mainly-because-the-dataset-is-too-small-that-each-class-only-has-4-pictures.-And-in-the-4-pictures,-we-have-to-divide-into-training,-validation-and-test-set.-And-this-cause-very-severe-overfitting-in-our-validation-and-test-process.">&#182;</a></h2><h2 id="Besides,-though-we-have-to-admit-that-keras-is-a-user-friendly-and-straightforward-framework,-it-has-some-drawbacks-that-all-layer-is-encapsulated--well.-The-verbose-mode-is-not-enough-for-providing-details-that-we-can-know-what-features-that-the-cnn-generated.">Besides, though we have to admit that keras is a user-friendly and straightforward framework, it has some drawbacks that all layer is encapsulated  well. The verbose mode is not enough for providing details that we can know what features that the cnn generated.<a class="anchor-link" href="#Besides,-though-we-have-to-admit-that-keras-is-a-user-friendly-and-straightforward-framework,-it-has-some-drawbacks-that-all-layer-is-encapsulated--well.-The-verbose-mode-is-not-enough-for-providing-details-that-we-can-know-what-features-that-the-cnn-generated.">&#182;</a></h2><h2 id="If-more-time-is-allowed,-we-might-have-more-options-to-ameliorate-our-implementation.">If more time is allowed, we might have more options to ameliorate our implementation.<a class="anchor-link" href="#If-more-time-is-allowed,-we-might-have-more-options-to-ameliorate-our-implementation.">&#182;</a></h2><h2 id="Here-are-several-possible-options-we-considered:">Here are several possible options we considered:<a class="anchor-link" href="#Here-are-several-possible-options-we-considered:">&#182;</a></h2><h3 id="1.-CNN-HMM-Hybrid-model">1. CNN-HMM Hybrid model<a class="anchor-link" href="#1.-CNN-HMM-Hybrid-model">&#182;</a></h3><h3 id="2.-Using-edge-detection-to-extract-ear-image-from-the-original-image-to-reduce-noice">2. Using edge detection to extract ear image from the original image to reduce noice<a class="anchor-link" href="#2.-Using-edge-detection-to-extract-ear-image-from-the-original-image-to-reduce-noice">&#182;</a></h3>
 </div>
 </div>
 </div>
